@@ -1,159 +1,103 @@
-import React from "react";
-import L, { popup } from 'leaflet';
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
-import leafGreen from '../assets/leaf-green.png';
-import leafRed from '../assets/leaf-red.png';
-import leafOrange from '../assets/leaf-orange.png';
-import leafShadow from '../assets/leaf-shadow.png';
-import markers1 from '../services/Markers.js'
-import markers2 from '../services/MarkersCenter.js';
-import school from '../assets/school.png';
-import Center from '../assets/Center.png';
-import '../css/popup.css';
-
-
+import React, { useState } from "react";
+import L, { popup } from "leaflet";
+import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+import markers1 from "../services/Markers.js";
+import markers2 from "../services/MarkersCenter.js";
+import SchoolVector from "../assets/school-black-18dp.svg";
+import CenterVector from "../assets/account_balance-black-18dp.svg";
 
 function MyMap() {
-
-  const position = [31.903410, 34.806831];
+  const [ShowSchools, setShowSchools] = useState(true);
+  const [ShowCenters, setShowCenters] = useState(true);
+  const position = [31.90341, 34.806831];
   return (
     <React.Fragment>
-
-      <Map className="map" center={position} zoom={14}>
+      <div className='filter'>
+        <input
+          type='checkbox'
+          onClick={() => setShowSchools(!ShowSchools)}
+          style={{
+            ":before": {
+              content: "hello",
+            },
+          }}
+        />
+        <input type='checkbox' onClick={() => setShowCenters(!ShowCenters)} />
+      </div>
+      <Map className='map' center={position} zoom={14}>
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
-        {
-          markers1.map((item, index) => {
-            return (<Marker key={index} position={[parseFloat(item.X), parseFloat(item.Y)]} icon={icon} >
-              <Popup className="popup">
-    <span className="popup">כתובת: {item.Address}</span><br/>
-    <span> בית ספר: {item.School}</span><br/>
-    <span>טלפון: {item.Phone}</span><br/>
-  </Popup>
-            </Marker>)
-          })
-        }
+        {ShowSchools
+          ? markers1.map((item, index) => {
+              return (
+                <Marker
+                  key={index}
+                  position={[parseFloat(item.X), parseFloat(item.Y)]}
+                  icon={icon}
+                  onmouseover={(e) => {
+                    e.target.openPopup();
+                  }}
+                >
+                  <Popup className='popup'>
+                    <h1>{item.School}</h1>
+                    <p>כתובת: {item.Address}</p>
+                    <p>טלפון: {item.Phone}</p>
+                  </Popup>
+                </Marker>
+              );
+            })
+          : null}
 
-        {
-          markers2.map((item, index) => {
-            return( <Marker key={index} position={[parseFloat(item.X), parseFloat(item.Y)]} icon={Ic} >
-              <Popup className="popup">
-    <span className="popup">כתובת: {item.Address}</span><br/>
-    <span> מרכז קהילתי: {item.CommunityCenterName}</span><br/>
-    <span>טלפון: {item.Phone}</span><br/>
-  </Popup>
-            </Marker>)
-          })
-        }
+        {ShowCenters
+          ? markers2.map((item, index) => {
+              return (
+                <Marker
+                  key={index}
+                  position={[parseFloat(item.X), parseFloat(item.Y)]}
+                  icon={Ic}
+                  onmouseover={(e) => {
+                    e.target.openPopup();
+                  }}
+                >
+                  <Popup className='popup'>
+                    <h1 style={{ borderColor: "green" }}>
+                      {item.CommunityCenterName}
+                    </h1>
+                    <p>כתובת: {item.Address}</p>
+                    <p>טלפון: {item.Phone}</p>
+                  </Popup>
+                </Marker>
+              );
+            })
+          : null}
       </Map>
     </React.Fragment>
-  )
-
-}
-
-function PopUp(props){
-  return(
-    <Popup className="popup">
-    <span className="popup">כתובת: {props.Address}</span><br/>
-    <span> בית ספר: {props.School}</span><br/>
-    <span>טלפון: {props.Phone}</span><br/>
-  </Popup>
   );
 }
 
 const icon = L.icon({
-  iconUrl: school,
+  iconUrl: SchoolVector,
   //shadowUrl: leafShadow,
   iconSize: [30, 60], // size of the icon
   shadowSize: [50, 64], // size of the shadow
   iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-  shadowAnchor: [4, 62],  // the same for the shadow
-  popupAnchor: [-3, -76]
+  shadowAnchor: [4, 62], // the same for the shadow
+  popupAnchor: [-3, -76],
 });
 
 const Ic = L.icon({
-  iconUrl: Center,
+  iconUrl: CenterVector,
   //shadowUrl: leafShadow,
   iconSize: [30, 60], // size of the icon
   shadowSize: [50, 64], // size of the shadow
   iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-  shadowAnchor: [4, 62],  // the same for the shadow
-  popupAnchor: [-3, -76]
+  shadowAnchor: [4, 62], // the same for the shadow
+  popupAnchor: [-3, -76],
 });
 
 export default MyMap;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*function MyMap() {
     const markers = getMarkers();

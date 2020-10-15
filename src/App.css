@@ -1,7 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap");
+
 .App {
   text-align: center;
 }
 
-.map{
+* {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Rubik", sans-serif;
+}
+
+.map {
   height: 100vh;
+  z-index: 0;
+}
+
+.popup .leaflet-popup-content-wrapper {
+  justify-content: center;
+  background: rgba(256, 256, 256, 0.7);
+  direction: rtl;
+}
+
+.popup .leaflet-popup-close-button {
+  left: 5px;
+}
+
+.popup .leaflet-popup-content {
+  padding: 5px;
+  margin: 0px;
+  background: rgba(256, 256, 256, 0);
+}
+
+.popup p {
+  text-align: right;
+  padding: 0px;
+  margin: 0px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.popup h1 {
+  font-weight: bold;
+  text-align: right;
+  border-bottom: orange 3px solid;
+}
+
+.filter {
+  min-width: 150px;
+  min-height: 60px;
+  background: black;
+  position: fixed;
+  right: -150px;
+  overflow: hidden;
+  top: 100px;
+  z-index: 1;
+  transition: 0.5s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
+  padding: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.filter:hover {
+  right: 0px;
+  opacity: 0.7;
+  background: whitesmoke;
+}
+
+.filter:hover * {
+  opacity: 1;
+}
+
+.filter * {
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.filter input[type="checkbox"] {
+  appearance: none;
+  outline: none;
+  margin: 15px;
+}
+
+.filter input[type="checkbox"]::after {
+  border-right: 5px solid;
+  padding: 10px;
+  width: 100%;
+  font-weight: bolder;
+}
+
+.filter input[type="checkbox"]:nth-child(1)::after {
+  content: "בתי ספר";
+  border-color: orange;
+  color: orange;
+}
+
+.filter input[type="checkbox"]:nth-child(1):checked:after {
+  border-color: black;
+  color: black;
+}
+
+.filter input[type="checkbox"]:nth-child(2)::after {
+  content: "מרכזים קהילתיים";
+  border-color: green;
+  color: green;
+}
+
+.filter input[type="checkbox"]:nth-child(2):checked:after {
+  border-color: black;
+  color: black;
 }
